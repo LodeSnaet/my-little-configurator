@@ -3,37 +3,33 @@ import * as THREE from 'three';
 import {useControls} from "leva";
 
 type MeshAnnotationProps = {
-    scene: THREE.Group | THREE.Object3D;
     meshName: string;
     positionOffset?: [number, number, number];
 }
 
-function ConfigurateOptions({scene, meshName, positionOffset = [0, 0.1, 0]}: MeshAnnotationProps) {
-    const targetMesh = scene.getObjectByName(meshName);
-
-    if (!targetMesh) return null;
+function ConfigurateOptions({meshName, positionOffset = [0, 0.1, 0]}: MeshAnnotationProps) {
 
     const offsetVector = new THREE.Vector3().fromArray(positionOffset);
-    const initialVector = targetMesh.position.clone().add(offsetVector);
+
+    // Initial position = node position + offset
     const initialPositionArray: [number, number, number] = [
-        initialVector.x,
-        initialVector.y,
-        initialVector.z
+        offsetVector.x,
+        offsetVector.y,
+        offsetVector.z,
     ];
 
     const {offset} = useControls(`Tag: ${meshName}`, {
         offset: {
-            value: initialPositionArray as [number, number, number],
+            value: initialPositionArray,
             step: 0.01,
             label: 'Offset'
         },
     });
 
-
     return (
         <group position={offset}>
             <Html>
-                <a href={`/configure/${meshName}`} className={"c-tag"}>
+                <a href={`/configure/${meshName}`} className="c-tag">
                     {meshName}
                 </a>
             </Html>
