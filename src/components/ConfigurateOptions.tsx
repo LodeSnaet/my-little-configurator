@@ -41,3 +41,6 @@ function ConfigurateOptions({mesh, meshName, offsetVector = new THREE.Vector3(0,
 }
 
 export default ConfigurateOptions;
+
+
+

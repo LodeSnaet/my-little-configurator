@@ -206,6 +206,8 @@ function Model({model}: ModelProps) {
     const pivotOffsets: Record<string, THREE.Vector3> = {
         pivot_material: new THREE.Vector3(-1.665, 1.573, -0.593),
         pivot_sole: new THREE.Vector3(-1.42, 0, 0.21),
+        pivot_laces: new THREE.Vector3(42.01, 0, 6.25),
+        pivot_color: new THREE.Vector3(3.7800000000000082, -0.34000000000000014, 4.4200000000000035),
     };
 
 
