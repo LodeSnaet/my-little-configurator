@@ -1,17 +1,14 @@
-import {Html} from '@react-three/drei';
+import {Html, Line} from '@react-three/drei';
 import * as THREE from 'three';
 import {useControls} from "leva";
 
 type MeshAnnotationProps = {
-    meshName: string;
-    positionOffset?: [number, number, number];
+    mesh: THREE.Object3D,
+    meshName: string,
+    offsetVector: THREE.Vector3,
 }
 
-function ConfigurateOptions({meshName, positionOffset = [0, 0.1, 0]}: MeshAnnotationProps) {
-
-    const offsetVector = new THREE.Vector3().fromArray(positionOffset);
-
-    // Initial position = node position + offset
+function ConfigurateOptions({mesh, meshName, offsetVector = new THREE.Vector3(0, 0.1, 0)}: MeshAnnotationProps) {
     const initialPositionArray: [number, number, number] = [
         offsetVector.x,
         offsetVector.y,
@@ -26,13 +23,19 @@ function ConfigurateOptions({meshName, positionOffset = [0, 0.1, 0]}: MeshAnnota
         },
     });
 
+    const startLine = new THREE.Vector3(mesh.position.x, mesh.position.y, mesh.position.z);
+    const endLine = new THREE.Vector3(offset[0], offset[1], offset[2]);
+
     return (
-        <group position={offset}>
-            <Html>
-                <a href={`/configure/${meshName}`} className="c-tag">
-                    {meshName}
-                </a>
-            </Html>
+        <group>
+            <Line points={[startLine, endLine]}></Line>
+            <group position={offset}>
+                <Html>
+                    <a href={`/configure/${meshName}`} className="c-tag">
+                        {meshName}
+                    </a>
+                </Html>
+            </group>
         </group>
     );
 }

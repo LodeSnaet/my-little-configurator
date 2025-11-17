@@ -203,9 +203,9 @@ function Model({model}: ModelProps) {
     }, [location.pathname, currentConfig, previousConfig]);
 
 
-    const pivotOffsets: Record<string, [number, number, number]> = {
-        pivot_material: [-1.6652335682511343, 1.5734382724761966, -0.593274302482605],
-        pivot_sole: [-1.4200000000000006, -3.469446951953614e-18, 0.21000000000000002],
+    const pivotOffsets: Record<string, THREE.Vector3> = {
+        pivot_material: new THREE.Vector3(-1.665, 1.573, -0.593),
+        pivot_sole: new THREE.Vector3(-1.42, 0, 0.21),
     };
 
 
@@ -229,7 +229,8 @@ function Model({model}: ModelProps) {
                             <ConfigurateOptions
                                 key={node.uuid}
                                 meshName={name}
-                                positionOffset={offset}
+                                mesh={node}
+                                offsetVector={offset}
                             />
                         );
                     })
