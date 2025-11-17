@@ -1,8 +1,8 @@
 .c-tag {
   font-weight: 700;
-  color: var(--black-background);
-  border-radius: 10px;
-  background-color: hotpink;
+  color: var(--white-text);
+  border-bottom: 1px solid var(--white-text);
+  background-color: transparent;
   padding-block: 5px;
   padding-inline: 10px;
 }
