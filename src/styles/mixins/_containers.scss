@@ -1,0 +1,9 @@
+@mixin container($block: 10px, $inline: 25px) {
+  padding-block: $block;
+  padding-inline: $inline;
+  color: var(--black-text);
+  background-color: var(--white-background);
+  border: none;
+  border-radius: 54px;
+  cursor: pointer;
+}

@@ -1,0 +1,42 @@
+@import "bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+@import 'mixins/containers';
+@import 'mixins/active';
+
+@import 'components/nav';
+@import 'components/button';
+@import 'components/configurator';
+@import 'components/hero';
+@import 'components/tag';
+
+:root {
+  --black-text: hsl(0, 0%, 0%);
+  --white-text: hsl(0, 0%, 100%);
+  --black-background: hsl(0, 0%, 0%);
+  --white-background: hsl(0, 0%, 100%);
+  --radial-gradient: radial-gradient(circle at center, hsl(0, 0%, 12.94%) 19%, hsl(0, 0%, 1.57%) 38%, hsl(0, 0%, 0.00%) 65%);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--white-text);
+  background-color: var(--black-background) !important;
+}
+
+h1 {
+  font-size: 8rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black-text);
+}
+
+

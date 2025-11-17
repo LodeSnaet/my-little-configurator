@@ -1,0 +1,56 @@
+.c-nav {
+  display: flex;
+  @include container(13px, 45px);
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+
+  &__menu {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+
+  &__item {
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+
+    &:after {
+      display: block;
+      width: 0;
+      height: 2px;
+      content: '';
+      transition: all 0.3s ease-in-out;
+      background-color: var(--black-text);
+    }
+
+    &:hover {
+      transition: all 0.3s ease-in-out;
+
+      @include active();
+
+    }
+
+    &--active {
+      transition: all 0.3s ease-in-out;
+      @include active();
+    }
+
+  }
+
+  hr {
+    width: 1px;
+    height: 20px;
+    opacity: 1;
+    border: none;
+    background-color: var(--black-background);
+  }
+
+  ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: 10px;
+  }
+}
