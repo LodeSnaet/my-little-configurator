@@ -26,7 +26,11 @@ function Experience() {
             title = '';
             break;
         default:
-            title = 'Nike Air Force 1';
+            if (location.pathname.startsWith('/configure/')) {
+                title = '';
+            } else {
+                title = 'Nike Air Force 1';
+            }
             break;
     }
 
