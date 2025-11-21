@@ -25,8 +25,8 @@ function MeshConfigurator() {
     useApplyMaterial(scene);
 
     return (
-        <Row>
-            <Col md={6}>
+        <Row style={{height: '80vh'}}>
+            <Col md={6} style={{height: '100%'}}>
                 <Canvas shadows camera={cameraSettings}>
                     <Experience />
                 </Canvas>
@@ -34,27 +34,35 @@ function MeshConfigurator() {
             <Col md={6}>
                 <h1>{meshName}</h1>
 
-                {materials
-                    .filter(materialInstance => relevantMaterialNames.includes(materialInstance.name))
-                    .map((material, index) => {
-                        const isChecked = selectedMaterial?.[meshName || ''] === material.name;
+                <div className={"o-options"}>
+                    <p>Colors</p>
+                    {materials
+                        .filter(materialInstance => relevantMaterialNames.includes(materialInstance.name))
+                        .map((material, index) => {
+                            const isChecked = selectedMaterial?.[meshName || ''] === material.name;
+                            const previewColor = (material as any).color?.isColor
+                                ? (material as any).color.getStyle() // Geeft 'rgb(x,x,x)' terug
+                                : '#ccc'; // Fallback kleur
 
-                        return (
-                            <div key={index}>
-                                <input
-                                    type="radio"
-                                    id={material.name}
-                                    name="colors"
-                                    value={material.name}
-                                    checked={isChecked}
-                                    onChange={() => {
-                                        if (meshName) setSelectedMaterial(meshName, material.name);
-                                    }}
-                                />
-                                <label htmlFor={material.name}>{material.name}</label>
-                            </div>
-                        );
-                    })}
+                            return (
+                                <label className={`c-options ${isChecked ? 'c-options--active' : ''}`} key={index}
+                                       htmlFor={material.name}>
+                                    <span style={{backgroundColor: previewColor}}></span>
+                                    <input
+                                        type="radio"
+                                        id={material.name}
+                                        name="colors"
+                                        value={material.name}
+                                        checked={isChecked}
+                                        onChange={() => {
+                                            if (meshName) setSelectedMaterial(meshName, material.name);
+                                        }}
+                                    />
+                                    {material.name}
+                                </label>
+                            );
+                        })}
+                </div>
             </Col>
         </Row>
     );

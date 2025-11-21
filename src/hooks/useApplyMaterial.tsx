@@ -37,3 +37,4 @@ export const useApplyMaterial = (scene: THREE.Group | null) => {
 
     }, [selectedMaterialMap, availableMaterials, scene]);
 };
+

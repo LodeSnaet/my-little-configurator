@@ -1,0 +1,49 @@
+.o-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.c-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 30%;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease-in-out;
+  border: 1px solid var(--white-text);
+
+  border-radius: 10px;
+  gap: 20px;
+  padding-inline: 10px;
+
+  padding-block: 10px;
+
+  input {
+    display: none;
+  }
+
+  span {
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--white-text);
+    border-radius: 50%;
+  }
+
+  &--active {
+    transition: all 0.3s ease-in-out;
+
+    color: var(--black-text);
+    background-color: var(--white-text);
+  }
+
+  &:hover {
+    transition: all 0.3s ease-in-out;
+
+    color: var(--black-text);
+    background-color: var(--white-text);
+  }
+}

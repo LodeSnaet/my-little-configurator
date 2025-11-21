@@ -1,6 +1,6 @@
 import {Html} from "@react-three/drei";
 import {useRef} from "react";
-import {Leva, useControls} from 'leva';
+import {useControls} from 'leva';
 import Model from "./Model.tsx";
 import {useLocation} from "react-router-dom";
 import Light from "./Light.tsx";
@@ -38,7 +38,6 @@ function Experience() {
 
     return (
         <group>
-            <Leva hidden={import.meta.env.PROD} />
 
             {/*<OrbitControls makeDefault />*/}
 
