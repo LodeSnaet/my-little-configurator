@@ -1,4 +1,4 @@
-import {Html} from "@react-three/drei";
+import {Html, PresentationControls} from "@react-three/drei";
 import {useRef} from "react";
 import {useControls} from 'leva';
 import Model from "./Model.tsx";
@@ -36,19 +36,31 @@ function Experience() {
             break;
     }
 
+
     return (
-        <group>
+        <PresentationControls
+            global={false}
+            cursor={true}
+            snap={true}
+            speed={1.5}
+            zoom={0.8}
+            rotation={[0, 0, 0]}
+            polar={[-Math.PI / 4, Math.PI / 4]}
+            azimuth={[-Math.PI / 4, Math.PI / 4]}
+        >
+            <group>
 
-            {/*<OrbitControls makeDefault />*/}
+                {/*<OrbitControls makeDefault />*/}
 
-            {/* Lights */}
-            <Light />
+                {/* Lights */}
+                <Light />
 
-            <Model model={shoe} />
-            <Html ref={htmlRef} transform position={position} rotation={rotation} scale={scale} center>
-                <h1>{title}</h1>
-            </Html>
-        </group>
+                <Model model={shoe} />
+                <Html ref={htmlRef} transform position={position} rotation={rotation} scale={scale} center>
+                    <h1>{title}</h1>
+                </Html>
+            </group>
+        </PresentationControls>
     )
 }
 

@@ -7,6 +7,8 @@ import ConfigurateOptions from "./ConfigurateOptions.tsx";
 import {useAnimation} from "../hooks/useAnimation.tsx";
 import {useModel} from "../hooks/useModel.tsx";
 import {useControls} from "leva";
+import {useProductStore} from "../scripts/productStore.ts";
+import {useApplyMaterial} from "../hooks/useApplyMaterial.tsx";
 
 type ModelProps = {
     model: string;
@@ -41,11 +43,14 @@ function Model({model}: ModelProps) {
 
     const pivotOffsets: Record<string, THREE.Vector3> = {
         pivot_sole: new THREE.Vector3(-1.2900000000000007, -0.28, 0.15),
-        pivot_body: new THREE.Vector3(42.01, 0, 6.25),
-        pivot_cube: new THREE.Vector3(0, 0, 0),
+        pivot_body: new THREE.Vector3(9.919999999999929, 1.2000000000000015, -0.9700000000000006),
+        pivot_tip: new THREE.Vector3(40.349999999999966, -7.81999999999999, 11.119999999999997),
     };
 
-    
+
+    const scene = useProductStore(state => state.model);
+    useApplyMaterial(scene);
+
     return (
 
         <group
