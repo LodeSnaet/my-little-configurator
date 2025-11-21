@@ -1,107 +1,59 @@
 import {useGLTF} from '@react-three/drei';
-import {useEffect, useRef} from "react";
+import {useRef} from "react";
 import * as THREE from "three";
-import {useControls} from "leva";
 import {useLocation} from "react-router-dom";
 import {pageConfig} from "../scripts/globalSettings.ts";
-import {gsap} from 'gsap';
 import ConfigurateOptions from "./ConfigurateOptions.tsx";
+import {useAnimation} from "../hooks/useAnimation.tsx";
+import {useModel} from "../hooks/useModel.tsx";
+import {useControls} from "leva";
+import {useProductStore} from "../scripts/productStore.ts";
+import {useApplyMaterial} from "../hooks/useApplyMaterial.tsx";
 
 type ModelProps = {
     model: string;
 }
 
-
 function Model({model}: ModelProps) {
     const shoe = useGLTF(model);
     const location = useLocation();
-    console.info(shoe);
-
-
     const shoeRef = useRef<THREE.Group>(null);
-    const currentConfig = Object.entries(pageConfig).find(([path]) => path === location.pathname)?.[1] ?? pageConfig["/"];
-    const previousConfig = location.state != null
-        ? Object.entries(pageConfig).find(([path]) => path === location.state.prevPath)?.[1] ?? pageConfig["/"]
+
+
+    useModel(shoe, shoe.materials);
+
+    const currentPageConfig = Object.entries(pageConfig)
+        .find(([path]) => path === location.pathname)?.[1] ?? pageConfig["/"];
+
+    const previousPageConfig = location.state != null
+        ? Object.entries(pageConfig)
+        .find(([path]) => path === location.state.prevPath)?.[1] ?? pageConfig["/"]
         : pageConfig["/"];
 
-
     const controls = {
-        position: {
-            value: currentConfig.position,
-            step: 0.01,
-            label: 'Position'
-        },
-        rotation: {
-            value: currentConfig.rotation,
-            step: 0.01,
-            label: 'Rotation'
-        },
-        scale: {
-            value: currentConfig.scale,
-            min: 0.1,
-            max: 5,
-            step: 0.1,
-            label: 'Scale'
-        } as const,
+        position: {value: currentPageConfig.position, step: 0.01, label: 'Position'},
+        rotation: {value: currentPageConfig.rotation, step: 0.01, label: 'Rotation'},
+        scale: {value: currentPageConfig.scale, min: 0.1, max: 5, step: 0.1, label: 'Scale'} as const,
     };
 
-    const {
-        position: controlledPosition,
-        rotation: controlledRotation,
-        scale: controlledScale
-    } = useControls(`shoe${location.pathname}`, controls);
+    const {position: controlledPosition, rotation: controlledRotation, scale: controlledScale} =
+        useControls(`shoe${location.pathname}`, controls);
+
+    useAnimation(shoeRef, previousPageConfig, currentPageConfig, location.pathname);
+
+    const pivotOffsets: Record<string, THREE.Vector3> = {
+        pivot_sole: new THREE.Vector3(-1.2900000000000007, -0.28, 0.15),
+        pivot_body: new THREE.Vector3(9.919999999999929, 1.2000000000000015, -0.9700000000000006),
+        pivot_tip: new THREE.Vector3(40.349999999999966, -7.81999999999999, 11.119999999999997),
+    };
 
 
-    useEffect(() => {
-        const shoeObject = shoeRef.current;
-        if (!shoeObject) return;
-
-        const targetConfig = currentConfig;
-        const prevConfig = previousConfig;
-
-        const commonGsapProperties = {
-            duration: 0.8,
-            repeat: 0,
-            ease: "power2.inOut",
-        };
-
-        const animationTargets = [
-            {
-                target: shoeObject.position,
-                prevValues: prevConfig.position,
-                targetValues: targetConfig.position,
-            },
-            {
-
-                target: shoeObject.rotation,
-                prevValues: prevConfig.rotation,
-                targetValues: targetConfig.rotation,
-            },
-        ];
-
-        animationTargets.forEach(({target, prevValues, targetValues}) => {
-            gsap.killTweensOf(target);
-
-            gsap.fromTo(target,
-                {x: prevValues[0], y: prevValues[1], z: prevValues[2]},
-                {
-                    ...commonGsapProperties,
-                    x: targetValues[0],
-                    y: targetValues[1],
-                    z: targetValues[2],
-                }
-            );
-        });
-
-    }, [
-        location.pathname,
-        currentConfig,
-        previousConfig
-    ]);
-
+    const scene = useProductStore(state => state.model);
+    useApplyMaterial(scene);
 
     return (
-        <mesh
+
+        <group
             ref={shoeRef}
             position={controlledPosition}
             rotation={controlledRotation}
@@ -109,19 +61,26 @@ function Model({model}: ModelProps) {
         >
             <primitive object={shoe.scene} />
 
-            {location.pathname === "/configure" && Object.entries(shoe.meshes).map(([meshName, mesh]) => {
-                return (
-                    <ConfigurateOptions
-                        key={mesh.uuid}
-                        scene={shoe.scene}
-                        meshName={meshName}
-                        positionOffset={[0.2, 0.1, 0]}
-                    />
-                );
-            })}
+            {location.pathname === "/configure" &&
+                Object.entries(shoe.nodes)
+                    .filter(([meshName]) => meshName.startsWith("pivot_"))
+                    .map(([meshName, node]) => {
+                        const name = meshName.replace("pivot_", "");
+                        const offset = pivotOffsets[meshName] ?? [0, 0.1, 0];
 
-        </mesh>
+                        return (
+                            <ConfigurateOptions
+                                key={node.uuid}
+                                meshName={name}
+                                mesh={node}
+                                offsetVector={offset}
+                            />
+                        );
+                    })
+            }
+        </group>
     );
 }
 
 export default Model;
+

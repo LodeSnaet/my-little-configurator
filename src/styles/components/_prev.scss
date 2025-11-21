@@ -1,0 +1,23 @@
+.c-prev {
+  font-size: 1.5rem;
+
+  margin-left: 34px;
+
+  transition: all 0.3s ease-in-out;
+  color: var(--white-text);
+
+  border: 1px solid var(--white-text);
+  border-radius: 10px;
+  padding-block: 0;
+  padding-inline: 10px;
+
+  margin-block: 10px;
+
+  &:hover {
+    cursor: pointer;
+
+    transition: all 0.3s ease-in-out;
+    color: var(--black-text);
+    background-color: var(--white-text);
+  }
+}

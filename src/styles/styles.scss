@@ -4,11 +4,13 @@
 @import 'mixins/containers';
 @import 'mixins/active';
 
+@import 'components/options';
 @import 'components/nav';
 @import 'components/button';
 @import 'components/configurator';
 @import 'components/hero';
 @import 'components/tag';
+@import 'components/prev';
 
 :root {
   --black-text: hsl(0, 0%, 0%);
@@ -37,6 +39,11 @@ h1 {
 a {
   text-decoration: none;
   color: var(--black-text);
+}
+
+button {
+  border: none;
+  background-color: transparent;
 }
 
 

@@ -1,17 +1,16 @@
 import {useControls} from "leva";
 import {useRef} from "react";
 import * as THREE from "three";
-import {useHelper} from "@react-three/drei";
 
 function Light() {
     const directionalLightRef = useRef<THREE.DirectionalLight>(null);
 
     // @ts-ignore
-    useHelper(directionalLightRef, THREE.DirectionalLightHelper, 1, "red");
+    // useHelper(directionalLightRef, THREE.DirectionalLightHelper, 1, "red");
 
     const {sunPosition, intensity, color} = useControls('Scene Settings', {
         sunPosition: {
-            value: [6.599999999999993, 4.899999999999999, 1.1999999999999984] as [number, number, number],
+            value: [1.3999999999999981, 2.5999999999999974, 0.6999999999999988] as [number, number, number],
             step: 0.1
         },
         color: {
@@ -24,6 +23,7 @@ function Light() {
             step: 0.1
         },
     });
+
 
     return (
         <directionalLight
