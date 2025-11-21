@@ -17,3 +17,8 @@ export const pageConfig = {
         scale: 2.6 as number,
     },
 };
+
+export const materialMap: Record<string, string[]> = {
+    "sole": ["darkblue", "purple"],
+    "body": ["red", "white", "black"],
+};

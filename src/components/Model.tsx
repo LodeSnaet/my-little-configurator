@@ -6,6 +6,7 @@ import {useLocation} from "react-router-dom";
 import {pageConfig} from "../scripts/globalSettings.ts";
 import ConfigurateOptions from "./ConfigurateOptions.tsx";
 import {useAnimation} from "../hooks/useAnimation.tsx";
+import {useModel} from "../hooks/useModel.tsx";
 
 type ModelProps = {
     model: string;
@@ -15,6 +16,8 @@ function Model({model}: ModelProps) {
     const shoe = useGLTF(model);
     const location = useLocation();
     const shoeRef = useRef<THREE.Group>(null);
+
+    useModel(shoe, shoe.materials);
 
     const currentPageConfig = Object.entries(pageConfig)
         .find(([path]) => path === location.pathname)?.[1] ?? pageConfig["/"];
@@ -36,10 +39,8 @@ function Model({model}: ModelProps) {
     useAnimation(shoeRef, previousPageConfig, currentPageConfig, location.pathname);
 
     const pivotOffsets: Record<string, THREE.Vector3> = {
-        pivot_material: new THREE.Vector3(-1.665, 1.573, -0.593),
         pivot_sole: new THREE.Vector3(-1.42, 0, 0.21),
-        pivot_laces: new THREE.Vector3(42.01, 0, 6.25),
-        pivot_color: new THREE.Vector3(3.7800000000000082, -0.34000000000000014, 4.4200000000000035),
+        pivot_body: new THREE.Vector3(42.01, 0, 6.25),
     };
 
     return (

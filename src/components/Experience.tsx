@@ -4,13 +4,16 @@ import {useControls} from 'leva';
 import Model from "./Model.tsx";
 import {useLocation} from "react-router-dom";
 import Light from "./Light.tsx";
+import {useProductStore} from "../scripts/productStore.ts";
+import {useApplyMaterial} from "../hooks/useApplyMaterial.tsx";
 
 
 function Experience() {
     const htmlRef = useRef<HTMLDivElement>(null);
     const location = useLocation();
     const shoe = "/models/home/shoe.glb";
-
+    const scene = useProductStore(state => state.model);
+    useApplyMaterial(scene);
 
     const {position, rotation, scale} = useControls('title', {
         position: {value: [0, 3.1599999999999775, 0] as [number, number, number]},
@@ -18,6 +21,7 @@ function Experience() {
         scale: {value: 0.9, min: 0.1, max: 5, step: 0.1} as { value: number, min: number, max: number, step: number }
     })
 
+    const model = useProductStore((state) => state.model);
 
     let title: string = '';
 
@@ -29,7 +33,7 @@ function Experience() {
             if (location.pathname.startsWith('/configure/')) {
                 title = '';
             } else {
-                title = 'Nike Air Force 1';
+                title = model.name;
             }
             break;
     }
