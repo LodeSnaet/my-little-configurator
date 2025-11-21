@@ -5,6 +5,7 @@ import {Canvas} from "@react-three/fiber";
 import {cameraSettings, materialMap} from "../scripts/globalSettings.ts";
 import Experience from "./Experience.tsx";
 import {useProductStore} from "../scripts/productStore.ts";
+import {useApplyMaterial} from "../hooks/useApplyMaterial.tsx";
 
 function MeshConfigurator() {
     const {meshName} = useParams();
@@ -14,12 +15,14 @@ function MeshConfigurator() {
 
     const relevantMaterialNames = materialMap[meshName || ''] || [];
 
-    // Initialize selected material to first in list
     useEffect(() => {
         if (meshName && !selectedMaterial?.[meshName] && relevantMaterialNames.length > 0) {
             setSelectedMaterial(meshName, relevantMaterialNames[0]);
         }
     }, [meshName, selectedMaterial, setSelectedMaterial, relevantMaterialNames]);
+
+    const scene = useProductStore(state => state.model);
+    useApplyMaterial(scene);
 
     return (
         <Row>
