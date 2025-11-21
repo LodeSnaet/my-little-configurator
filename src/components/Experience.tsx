@@ -18,6 +18,7 @@ function Experience() {
         scale: {value: 0.9, min: 0.1, max: 5, step: 0.1} as { value: number, min: number, max: number, step: number }
     })
 
+
     const model = useProductStore((state) => state.model);
 
     let title: string = '';
@@ -37,6 +38,7 @@ function Experience() {
 
     return (
         <group>
+            {/*<Leva hidden />*/}
 
             {/*<OrbitControls makeDefault />*/}
 

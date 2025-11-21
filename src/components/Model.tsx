@@ -6,6 +6,7 @@ import {pageConfig} from "../scripts/globalSettings.ts";
 import ConfigurateOptions from "./ConfigurateOptions.tsx";
 import {useAnimation} from "../hooks/useAnimation.tsx";
 import {useModel} from "../hooks/useModel.tsx";
+import {useControls} from "leva";
 
 type ModelProps = {
     model: string;
@@ -27,33 +28,33 @@ function Model({model}: ModelProps) {
         .find(([path]) => path === location.state.prevPath)?.[1] ?? pageConfig["/"]
         : pageConfig["/"];
 
-    // const controls = {
-    //     position: {value: currentPageConfig.position, step: 0.01, label: 'Position'},
-    //     rotation: {value: currentPageConfig.rotation, step: 0.01, label: 'Rotation'},
-    //     scale: {value: currentPageConfig.scale, min: 0.1, max: 5, step: 0.1, label: 'Scale'} as const,
-    // };
-    //
-    // const {position: controlledPosition, rotation: controlledRotation, scale: controlledScale} =
-    //     useControls(`shoe${location.pathname}`, controls);
+    const controls = {
+        position: {value: currentPageConfig.position, step: 0.01, label: 'Position'},
+        rotation: {value: currentPageConfig.rotation, step: 0.01, label: 'Rotation'},
+        scale: {value: currentPageConfig.scale, min: 0.1, max: 5, step: 0.1, label: 'Scale'} as const,
+    };
+
+    const {position: controlledPosition, rotation: controlledRotation, scale: controlledScale} =
+        useControls(`shoe${location.pathname}`, controls);
 
     useAnimation(shoeRef, previousPageConfig, currentPageConfig, location.pathname);
 
     const pivotOffsets: Record<string, THREE.Vector3> = {
-        pivot_sole: new THREE.Vector3(-4.059999999999992, -0.03, -0.39000000000000024),
+        pivot_sole: new THREE.Vector3(-1.2900000000000007, -0.28, 0.15),
         pivot_body: new THREE.Vector3(42.01, 0, 6.25),
         pivot_cube: new THREE.Vector3(0, 0, 0),
     };
 
-
+    
     return (
-        // position={controlledPosition}
-        // rotation={controlledRotation}
-        // scale={controlledScale}
+
         <group
             ref={shoeRef}
-
+            position={controlledPosition}
+            rotation={controlledRotation}
+            scale={controlledScale}
         >
-            <primitive object={shoe.scene} scale={2} />
+            <primitive object={shoe.scene} />
 
             {location.pathname === "/configure" &&
                 Object.entries(shoe.nodes)
